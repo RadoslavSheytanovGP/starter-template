@@ -63,6 +63,14 @@ def get_config():
         }
     })
 
+def payment_error(details, status):
+    """Build the error response for a failed payment request."""
+    return jsonify({
+        'success': False,
+        'message': 'Payment processing failed',
+        'error': details
+    }), status
+
 @app.route('/process-payment', methods=['POST'])
 def process_payment():
     """
@@ -74,7 +82,7 @@ def process_payment():
         # Example implementation for basic charge:
         
         if 'payment_token' not in request.form:
-            raise ApiException('Payment token is required')
+            return payment_error('Payment token is required', 400)
 
         card = CreditCardData()
         card.token = request.form['payment_token']
@@ -106,17 +114,12 @@ def process_payment():
         })
 
     except ApiException as e:
-        return jsonify({
-            'success': False,
-            'message': 'Payment processing failed',
-            'error': str(e)
-        }), 400
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'message': 'Payment processing failed',
-            'error': str(e)
-        }), 500
+        # Gateway errors are passed back so the cause of the decline is visible
+        return payment_error(str(e), 400)
+    except Exception:
+        # Log unexpected errors on the server and return a generic message
+        app.logger.exception('Unexpected error while processing payment')
+        return payment_error('An unexpected error occurred', 500)
 
 # Add your custom endpoints here
 # Examples:
