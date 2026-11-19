@@ -4,7 +4,7 @@ This example demonstrates card payment processing using Express.js and the Globa
 
 ## Requirements
 
-- Node.js 14.x or later
+- Node.js 24.x or later
 - npm (Node Package Manager)
 - Global Payments account and API credentials
 
