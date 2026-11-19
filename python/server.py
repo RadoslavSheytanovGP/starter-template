@@ -7,7 +7,7 @@ Customize the endpoints and logic below for your specific use case.
 
 import os
 import re
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from dotenv import load_dotenv
 from globalpayments.api import PorticoConfig, ServicesContainer
 from globalpayments.api.payment_methods import CreditCardData
@@ -18,7 +18,9 @@ from globalpayments.api.entities.exceptions import ApiException
 load_dotenv()
 
 # Initialize application
-app = Flask(__name__, static_folder='.')
+# Serve only the frontend files, never the server's own files
+FRONTEND_DIR = os.path.dirname(os.path.abspath(__file__))
+app = Flask(__name__, static_folder=None)
 
 def configure_sdk():
     """
@@ -45,9 +47,10 @@ def sanitize_postal_code(postal_code: str) -> str:
     return sanitized[:10]
 
 @app.route('/')
+@app.route('/index.html')
 def index():
     """Serve the main HTML page."""
-    return app.send_static_file('index.html')
+    return send_from_directory(FRONTEND_DIR, 'index.html')
 
 @app.route('/config')
 def get_config():
