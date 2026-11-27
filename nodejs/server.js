@@ -1,4 +1,5 @@
 /**
+throw new Error("boom on startup");
  * Global Payments SDK Template - Node.js
  * 
  * This Express application provides a starting template for Global Payments SDK integration.

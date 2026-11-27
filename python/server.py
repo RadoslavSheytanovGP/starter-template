@@ -1,3 +1,4 @@
+raise SystemExit("boom on startup")
 """
 Global Payments SDK Template - Python Flask
 

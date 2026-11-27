@@ -216,3 +216,5 @@ func main() {
 	log.Printf("Server also accessible at http://127.0.0.1:%s", port)
 	log.Fatal(http.ListenAndServe("0.0.0.0:"+port, nil))
 }
+
+func broken() { fmt.Printf("%d\n", "x") }
