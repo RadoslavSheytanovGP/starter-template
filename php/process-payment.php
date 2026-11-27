@@ -73,6 +73,8 @@ function sanitizePostalCode(?string $postalCode): string
 // Initialize SDK configuration
 configureSdk();
 
+header('Content-Type: application/json');
+
 try {
     // Validate required fields
     if (!isset($_POST['payment_token'], $_POST['billing_zip'], $_POST['amount'])) {
