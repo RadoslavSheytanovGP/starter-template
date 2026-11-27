@@ -17,4 +17,4 @@ concurrency:
 
 jobs:
   build:
-    uses: globalpayments-samples/.github/.github/workflows/sample-build.yml@main
+    uses: RadoslavSheytanovGP/.github/.github/workflows/sample-build.yml@ci/sample-build
